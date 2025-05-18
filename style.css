@@ -1,4 +1,11 @@
+/*
+  Mood Tracker App Styles
+  Comments added by me to help me learn and remember what each part does in future
+  Naim Lindsay - May 16, 2025 - May 18, 2025
+*/
+
 :root {
+  /* These are CSS variables for colors and other values I can reuse everywhere */
   --primary-color: #2055c9;
   --primary-hover: #466dc0;
   --text-color: #2c3e50;
@@ -28,12 +35,14 @@
   --accent-neon: #a259ff;
 }
 
+/* Reset some default browser styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Main body styles for the app */
 body {
   font-family: 'Rajdhani', Arial, sans-serif;
   line-height: 1.7;
@@ -51,11 +60,13 @@ body {
   align-items: center;
 }
 
+/* Neon theme overrides for body */
 body.theme-neon {
   background: var(--bg-main-neon);
   color: var(--text-neon);
 }
 
+/* Headings and important buttons use Orbitron font for a cool look */
 h1, h2, .save-button, .clear-history-button {
   font-family: 'Orbitron', 'Rajdhani', Arial, sans-serif;
   letter-spacing: 0.03em;
@@ -64,6 +75,7 @@ h1, h2, .save-button, .clear-history-button {
   transition: color 0.5s, text-shadow 0.5s;
 }
 
+/* Main container for the app content */
 .container {
   max-width: 800px;
   margin: 2.5rem auto;
@@ -73,6 +85,7 @@ h1, h2, .save-button, .clear-history-button {
   transition: background 0.5s, color 0.5s;
 }
 
+/* Main app title */
 h1 {
   text-align: center;
   color: var(--text-light);
@@ -87,6 +100,7 @@ body.theme-neon h1 {
   text-shadow: 0 2px 16px #a259ffcc;
 }
 
+/* Section headingss */
 h2 {
   color: var(--text-light);
   margin-bottom: 1.2rem;
@@ -935,4 +949,35 @@ body.theme-light .header-right {
 body.theme-neon .toggle-button i {
   color: #a259ff !important;
   text-shadow: 0 0 8px #a259ff88;
+}
+
+/* Neutral: Clouds */
+.mood-anim-neutral .cloud {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 36px;
+  height: 18px;
+  background: #e0e0e0;
+  border-radius: 18px;
+  opacity: 0.85;
+  box-shadow: 10px 0 0 0 #e0e0e0, -10px 0 0 0 #e0e0e0, 0 8px 12px 0 #b0b3b8;
+  transform: translate(-50%, -50%) scale(0.8);
+  animation: cloud-float 1.4s ease-in-out;
+}
+.mood-anim-neutral .cloud2 {
+  width: 24px;
+  height: 12px;
+  left: 60%;
+  top: 60%;
+  opacity: 0.7;
+  background: #d1d5db;
+  box-shadow: 6px 0 0 0 #d1d5db, -6px 0 0 0 #d1d5db;
+  animation-delay: 0.3s;
+}
+@keyframes cloud-float {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  20% { opacity: 1; }
+  60% { opacity: 1; transform: translate(-50%, -60%) scale(1.05); }
+  100% { opacity: 0; transform: translate(-50%, -70%) scale(1.1); }
 }

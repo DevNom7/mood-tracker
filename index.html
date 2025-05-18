@@ -13,19 +13,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Main container for the whole app -->
   <div class="container">
+    <!-- Header with theme toggle button -->
     <header class="main-header">
       <div class="header-right">
+        <!-- Button to switch between light and neon themes -->
         <button id="theme-toggle" class="theme-toggle" title="Toggle theme">🌙 Theme</button>
       </div>
     </header>
-    <!-- <div id="current-datetime"></div> -->
-    <h1>Mood Tracker 😊</h1>
+    <!-- Date and time display, centered above the main heading -->
     <div id="current-datetime"></div>
-    <br><br>
+    <!-- Main app title -->
+    <h1>Mood Tracker 😊</h1>
+    <!-- Section where you pick your mood and add a note -->
     <div class="mood-input-section">
       <h2>How are you feeling today?</h2>
       <div class="emoji-selector">
+        <!-- Mood emoji buttons (click to select your mood) -->
         <button data-mood="very-happy" title="Very Happy">😄</button>
         <button data-mood="happy" title="Happy">😊</button>
         <button data-mood="calm" title="Calm">😌</button>
@@ -35,26 +40,30 @@
         <button data-mood="anxious" title="Anxious">😰</button>
         <button data-mood="tired" title="Tired">😴</button>
       </div>
-      
+      <!-- Optional note about your mood -->
       <div class="note-section">
         <textarea id="mood-note" placeholder="Add a note about your mood (optional)"></textarea>
       </div>
       <div id="mood-error"></div>
+      <!-- Save mood button -->
       <button id="save-mood" class="save-button">Save Mood</button>
     </div>
-
+    <!-- Mood streak badge (shows if you have a streak) -->
     <div class="streak-badge" id="streak-badge"></div>
-
+    <!-- Mood history section (collapsible) -->
     <div class="mood-history-section">
       <div class="history-header">
         <h2>Mood History</h2>
+        <!-- Button to toggle mood history open/closed -->
         <button id="toggle-history" class="toggle-button">
           <i class="fas fa-chevron-right" id="toggle-icon"></i>
         </button>
+        <!-- Button to clear all mood history -->
         <button id="clear-history" class="clear-history-button">Clear Mood History</button>
       </div>
       <div class="history-content">
         <div class="history-filters">
+          <!-- Filter mood history by time -->
           <select id="time-filter">
             <option value="today">Today</option>
             <option value="yesterday">Yesterday</option>
@@ -67,15 +76,18 @@
         <div id="mood-history" class="mood-history"></div>
       </div>
     </div>
+    <!-- Mood bar graph/chart section -->
     <div class="mood-bar-graph-section">
       <div class="section-header">
         <h2>Mood Chart</h2>
+        <!-- Button to toggle chart open/closed -->
         <button class="toggle-button" id="toggle-chart">
           <i class="fas fa-chevron-down"></i>
         </button>
       </div>
       <div class="graph-content">
         <div class="bar-graph-filters">
+          <!-- Filter the chart by emotion -->
           <label for="bar-graph-emotion">Filter by emotion:</label>
           <select id="bar-graph-emotion">
             <option value="all">All</option>
@@ -94,10 +106,12 @@
     </div>
   </div>
 
+  <!-- Footer with my name (student project!) -->
   <footer>
     <p>Made with ❤️ by <span class="brand">Naim Lindsay</span></p>
   </footer>
 
+  <!-- External libraries for confetti and icons -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
 </body>

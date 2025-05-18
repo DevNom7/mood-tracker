@@ -22,4 +22,4 @@ A beautiful mood tracker web app built with HTML, CSS, and JavaScript.
 
 ## License
 
-MIT 
+Naim Lindsay

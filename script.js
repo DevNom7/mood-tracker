@@ -1,5 +1,5 @@
-// Mood Tracker App Script
-// This file controls all the logic for your mood tracker web app.
+// Mood Tracker App Script May 16, 2025 - May 18, 2025
+// This file controls all the logic for the mood tracker web app.
 // Comments are added throughout to help me remember and understand each part in future,
 
 // Wait until the HTML page is fully loaded before running any code
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         effect.innerHTML = '<div class="sparkle sparkle1"></div><div class="sparkle sparkle2"></div><div class="sparkle sparkle3"></div>';
         break;
       case 'neutral':
-        effect.innerHTML = '<div class="ripple"></div>';
+        effect.innerHTML = '<div class="cloud"></div><div class="cloud cloud2"></div>';
         break;
       case 'sad':
         effect.innerHTML = '<div class="raindrop drop1"></div><div class="raindrop drop2"></div><div class="raindrop drop3"></div>';
