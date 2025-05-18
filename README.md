@@ -18,7 +18,7 @@ A beautiful mood tracker web app built with HTML, CSS, and JavaScript.
 
 ## Live Demo
 
-(Once deployed, your GitHub Pages link will go here.)
+(Once deployed, I will place GitHub Pages link here.)
 
 ## License
 
