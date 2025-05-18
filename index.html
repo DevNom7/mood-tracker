@@ -1,0 +1,104 @@
+<!-- Naim Lindsay - May 16, 2025 - May 18, 2025
+ Hackathon Project -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header class="main-header">
+      <div class="header-right">
+        <button id="theme-toggle" class="theme-toggle" title="Toggle theme">🌙 Theme</button>
+      </div>
+    </header>
+    <!-- <div id="current-datetime"></div> -->
+    <h1>Mood Tracker 😊</h1>
+    <div id="current-datetime"></div>
+    <br><br>
+    <div class="mood-input-section">
+      <h2>How are you feeling today?</h2>
+      <div class="emoji-selector">
+        <button data-mood="very-happy" title="Very Happy">😄</button>
+        <button data-mood="happy" title="Happy">😊</button>
+        <button data-mood="calm" title="Calm">😌</button>
+        <button data-mood="neutral" title="Neutral">😐</button>
+        <button data-mood="sad" title="Sad">😢</button>
+        <button data-mood="angry" title="Angry">😠</button>
+        <button data-mood="anxious" title="Anxious">😰</button>
+        <button data-mood="tired" title="Tired">😴</button>
+      </div>
+      
+      <div class="note-section">
+        <textarea id="mood-note" placeholder="Add a note about your mood (optional)"></textarea>
+      </div>
+      <div id="mood-error"></div>
+      <button id="save-mood" class="save-button">Save Mood</button>
+    </div>
+
+    <div class="streak-badge" id="streak-badge"></div>
+
+    <div class="mood-history-section">
+      <div class="history-header">
+        <h2>Mood History</h2>
+        <button id="toggle-history" class="toggle-button">
+          <i class="fas fa-chevron-right" id="toggle-icon"></i>
+        </button>
+        <button id="clear-history" class="clear-history-button">Clear Mood History</button>
+      </div>
+      <div class="history-content">
+        <div class="history-filters">
+          <select id="time-filter">
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="3">Last 3 days</option>
+            <option value="7">Last 7 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="all">All time</option>
+          </select>
+        </div>
+        <div id="mood-history" class="mood-history"></div>
+      </div>
+    </div>
+    <div class="mood-bar-graph-section">
+      <div class="section-header">
+        <h2>Mood Chart</h2>
+        <button class="toggle-button" id="toggle-chart">
+          <i class="fas fa-chevron-down"></i>
+        </button>
+      </div>
+      <div class="graph-content">
+        <div class="bar-graph-filters">
+          <label for="bar-graph-emotion">Filter by emotion:</label>
+          <select id="bar-graph-emotion">
+            <option value="all">All</option>
+            <option value="very-happy">Very Happy</option>
+            <option value="happy">Happy</option>
+            <option value="calm">Calm</option>
+            <option value="neutral">Neutral</option>
+            <option value="sad">Sad</option>
+            <option value="angry">Angry</option>
+            <option value="anxious">Anxious</option>
+            <option value="tired">Tired</option>
+          </select>
+        </div>
+        <div id="mood-bar-graph"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Made with ❤️ by <span class="brand">Naim Lindsay</span></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
