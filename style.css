@@ -981,3 +981,171 @@ body.theme-neon .toggle-button i {
   60% { opacity: 1; transform: translate(-50%, -60%) scale(1.05); }
   100% { opacity: 0; transform: translate(-50%, -70%) scale(1.1); }
 }
+
+/* Calendar icon and dropdown styles */
+.datetime-calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 1.2rem;
+  margin-top: 1.5rem;
+}
+.calendar-icon {
+  font-size: 2.1rem;
+  color: #2055c9;
+  margin: 0 0 0.5rem 0;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#current-datetime.clickable {
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0.5rem;
+}
+.calendar-dropdown {
+  display: none;
+  position: absolute;
+  top: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30,36,54,0.92); /* glassy dark */
+  border: 2.5px solid #a259ff;
+  border-radius: 22px;
+  box-shadow: 0 8px 40px 0 #a259ff88, 0 1.5px 16px #2055c955;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  min-width: 340px;
+  padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+  animation: fadeInCalendar 0.25s;
+  color: #eaf6fb;
+}
+body.theme-neon .calendar-dropdown {
+  background: rgba(30,36,54,0.98);
+  border: 2.5px solid #a259ff;
+  box-shadow: 0 0 32px 8px #a259ffcc, 0 2px 16px #a259ff88;
+}
+.calendar-dropdown.open {
+  display: block;
+}
+@keyframes fadeInCalendar {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Make textarea and input text larger */
+textarea, input[type="text"], input[type="email"], input[type="password"] {
+  font-size: 1.15rem;
+}
+
+.calendar-close {
+  position: absolute;
+  top: -0.3rem;
+  right: 1.3rem;
+  cursor: pointer;
+  font-size: 2em;
+  color: #fff;
+  z-index: 20;
+  background: none;
+  border: none;
+  padding: 0.1em 0.3em;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.calendar-close:hover {
+  background: #a259ff33;
+  color: #dc3545;
+  box-shadow: 0 2px 8px #dc354555;
+  transform: scale(1.12);
+}
+
+.calendar-header {
+  font-size: 1.5em;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #fff;
+  margin-bottom: 0.7rem;
+  text-shadow: 0 2px 12px #a259ff88;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+.calendar-weekday {
+  font-size: 1.05em;
+  color: #a259ff;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 8px #a259ff44;
+}
+.calendar-day {
+  height: 2.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.03);
+  color: #eaf6fb;
+  font-size: 1.1em;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  border: 2px solid transparent;
+}
+.calendar-day:hover {
+  background: #a259ff33;
+  color: #fff;
+  box-shadow: 0 2px 8px #a259ff55;
+}
+.calendar-day[style*='border:2px solid #2055c9'] {
+  box-shadow: 0 0 0 2px #ffc107, 0 2px 8px #2055c988;
+  border-color: #ffc107 !important;
+}
+.calendar-view-btn {
+  background: #fff;
+  color: #232b3e;
+  border: none;
+  border-radius: 8px;
+  padding: 0.3em 0.9em;
+  margin: 0 0.1em;
+  font-size: 1em;
+  font-weight: 600;
+  box-shadow: 0 1px 4px #a259ff22;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.calendar-view-btn.active, .calendar-view-btn:hover {
+  background: #a259ff;
+  color: #fff;
+}
+.calendar-nav-btn {
+  background: #fff;
+  color: #232b3e;
+  border: none;
+  border-radius: 8px;
+  padding: 0.3em 0.7em;
+  font-size: 1.2em;
+  font-weight: 700;
+  box-shadow: 0 1px 4px #a259ff22;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin: 0 0.1em;
+}
+.calendar-nav-btn:hover {
+  background: #a259ff;
+  color: #fff;
+}

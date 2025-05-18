@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const timeFilterEl = document.getElementById('time-filter'); // Another reference to the time filter
   const toggleChartButton = document.getElementById('toggle-chart');
   const graphContent = document.querySelector('.graph-content');
+  const calendarIcon = document.getElementById('calendar-icon');
+  const currentDatetime = document.getElementById('current-datetime');
+  const calendarDropdown = document.getElementById('calendar-dropdown');
 
   // --- MOOD META DATA ---
   // This object maps mood keys to their labels and emoji
@@ -572,6 +575,189 @@ document.addEventListener('DOMContentLoaded', function() {
     graphContent.classList.toggle('collapsed');
     toggleChartButton.classList.toggle('open');
   });
+
+  // --- CALENDAR DROPDOWN LOGIC ---
+  function toggleCalendarDropdown() {
+    calendarDropdown.classList.toggle('open');
+    if (calendarDropdown.classList.contains('open')) {
+      renderCalendar(currentCalendarView); // Use current view
+    }
+  }
+
+  if (calendarIcon) calendarIcon.addEventListener('click', toggleCalendarDropdown);
+  if (currentDatetime) currentDatetime.addEventListener('click', toggleCalendarDropdown);
+
+  // --- CALENDAR STATE ---
+  let currentCalendarView = 'month';
+  let calendarDate = new Date(); // The month/week/day being shown
+
+  function renderCalendar(view) {
+    currentCalendarView = view;
+    const moods = JSON.parse(localStorage.getItem('moods') || '[]');
+    const today = new Date();
+    let html = '';
+    // Close icon
+    html += `<span class='calendar-close' id='calendar-close-btn' title='Close' style='position:absolute;top:0.7rem;right:1.1rem;cursor:pointer;font-size:1.3em;color:#888;z-index:20;'><i class='fas fa-times'></i></span>`;
+    // View switcher
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem;">
+      <button class="calendar-nav-btn" id="calendar-prev">&#8592;</button>
+      <div>
+        <button class="calendar-view-btn${view==='month'?' active':''}" id="calendar-view-month">Month</button>
+        <button class="calendar-view-btn${view==='week'?' active':''}" id="calendar-view-week">Week</button>
+        <button class="calendar-view-btn${view==='day'?' active':''}" id="calendar-view-day">Day</button>
+      </div>
+      <button class="calendar-nav-btn" id="calendar-next">&#8594;</button>
+    </div>`;
+    // Calendar grid
+    if (view === 'month') {
+      html += renderMonthCalendar(calendarDate, moods);
+    } else if (view === 'week') {
+      html += renderWeekCalendar(calendarDate, moods);
+    } else {
+      html += renderDayCalendar(calendarDate, moods);
+    }
+    calendarDropdown.innerHTML = html;
+    // Add event listeners for close, view switch and navigation
+    document.getElementById('calendar-close-btn').onclick = () => {
+      calendarDropdown.classList.remove('open');
+    };
+    document.getElementById('calendar-view-month').onclick = () => renderCalendar('month');
+    document.getElementById('calendar-view-week').onclick = () => renderCalendar('week');
+    document.getElementById('calendar-view-day').onclick = () => renderCalendar('day');
+    document.getElementById('calendar-prev').onclick = () => {
+      if (currentCalendarView === 'month') {
+        calendarDate.setMonth(calendarDate.getMonth() - 1);
+      } else if (currentCalendarView === 'week') {
+        calendarDate.setDate(calendarDate.getDate() - 7);
+      } else {
+        calendarDate.setDate(calendarDate.getDate() - 1);
+      }
+      renderCalendar(currentCalendarView);
+    };
+    document.getElementById('calendar-next').onclick = () => {
+      if (currentCalendarView === 'month') {
+        calendarDate.setMonth(calendarDate.getMonth() + 1);
+      } else if (currentCalendarView === 'week') {
+        calendarDate.setDate(calendarDate.getDate() + 7);
+      } else {
+        calendarDate.setDate(calendarDate.getDate() + 1);
+      }
+      renderCalendar(currentCalendarView);
+    };
+    // Add click listeners for days
+    document.querySelectorAll('.calendar-day').forEach(dayEl => {
+      dayEl.onclick = () => {
+        const dateStr = dayEl.getAttribute('data-date');
+        showDayMoodDetails(dateStr, moods);
+      };
+    });
+  }
+
+  function renderMonthCalendar(date, moods) {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDay = firstDay.getDay();
+    const daysInMonth = lastDay.getDate();
+    let html = `<div class="calendar-header" style="text-align:center;font-weight:600;margin-bottom:0.5rem;">${firstDay.toLocaleString('default', { month: 'long' })} ${year}</div>`;
+    html += '<div class="calendar-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:0.2rem;">';
+    // Weekday headers
+    const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    for (let d = 0; d < 7; d++) html += `<div class="calendar-weekday" style="font-size:0.95em;color:#888;text-align:center;">${weekdays[d]}</div>`;
+    // Empty cells before first day
+    for (let i = 0; i < startDay; i++) html += '<div></div>';
+    // Days
+    for (let day = 1; day <= daysInMonth; day++) {
+      const thisDate = new Date(year, month, day);
+      const dateStr = thisDate.toISOString().slice(0,10);
+      const moodEntry = moods.find(m => m.date && m.date.slice(0,10) === dateStr);
+      let moodColor = '';
+      let moodEmoji = '';
+      if (moodEntry && moodEntry.moods && moodEntry.moods.length > 0) {
+        // Use the first mood for color/emoji
+        const mood = moodEntry.moods[0];
+        moodColor = getMoodColor(mood);
+        moodEmoji = MOOD_META[mood]?.emoji || '';
+      }
+      html += `<div class="calendar-day" data-date="${dateStr}" style="height:2.2em;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;${moodColor?`background:${moodColor};color:#fff;`:''}${isToday(thisDate)?'border:2px solid #2055c9;':''}">
+        ${day}${moodEmoji?` <span style='font-size:1.1em;'>${moodEmoji}</span>`:''}
+      </div>`;
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function renderWeekCalendar(date, moods) {
+    // Find the Sunday of the current week
+    const weekStart = new Date(date);
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+    let html = `<div class="calendar-header" style="text-align:center;font-weight:600;margin-bottom:0.5rem;">Week of ${weekStart.toLocaleDateString()}</div>`;
+    html += '<div class="calendar-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:0.2rem;">';
+    const weekdays = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    for (let d = 0; d < 7; d++) {
+      const thisDate = new Date(weekStart);
+      thisDate.setDate(weekStart.getDate() + d);
+      const dateStr = thisDate.toISOString().slice(0,10);
+      const moodEntry = moods.find(m => m.date && m.date.slice(0,10) === dateStr);
+      let moodColor = '';
+      let moodEmoji = '';
+      if (moodEntry && moodEntry.moods && moodEntry.moods.length > 0) {
+        const mood = moodEntry.moods[0];
+        moodColor = getMoodColor(mood);
+        moodEmoji = MOOD_META[mood]?.emoji || '';
+      }
+      html += `<div class="calendar-day" data-date="${dateStr}" style="height:2.2em;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;${moodColor?`background:${moodColor};color:#fff;`:''}${isToday(thisDate)?'border:2px solid #2055c9;':''}">
+        ${weekdays[d]}<br>${thisDate.getDate()}${moodEmoji?` <span style='font-size:1.1em;'>${moodEmoji}</span>`:''}
+      </div>`;
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function renderDayCalendar(date, moods) {
+    const dateStr = date.toISOString().slice(0,10);
+    const moodEntry = moods.find(m => m.date && m.date.slice(0,10) === dateStr);
+    let html = `<div class="calendar-header" style="text-align:center;font-weight:600;margin-bottom:0.5rem;">${date.toLocaleDateString()}</div>`;
+    html += `<div class="calendar-day calendar-day-large" data-date="${dateStr}" style="height:3.5em;display:flex;align-items:center;justify-content:center;border-radius:12px;cursor:pointer;font-size:1.5em;${isToday(date)?'border:2px solid #2055c9;':''}">
+      ${date.getDate()}`;
+    if (moodEntry && moodEntry.moods && moodEntry.moods.length > 0) {
+      const mood = moodEntry.moods[0];
+      html += ` <span style='font-size:1.2em;'>${MOOD_META[mood]?.emoji || ''}</span>`;
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function getMoodColor(mood) {
+    switch(mood) {
+      case 'very-happy': return 'linear-gradient(90deg,#ffc107,#ffe066)';
+      case 'happy': return 'linear-gradient(90deg,#28a745,#a8e063)';
+      case 'calm': return 'linear-gradient(90deg,#0d6efd,#6dd5ed)';
+      case 'neutral': return 'linear-gradient(90deg,#6c757d,#b0b3b8)';
+      case 'sad': return 'linear-gradient(90deg,#17a2b8,#48c6ef)';
+      case 'angry': return 'linear-gradient(90deg,#dc3545,#ff758c)';
+      case 'anxious': return 'linear-gradient(90deg,#6f42c1,#a259ff)';
+      case 'tired': return 'linear-gradient(90deg,#6c757d,#b0b3b8)';
+      default: return '';
+    }
+  }
+
+  function isToday(date) {
+    const now = new Date();
+    return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
+  }
+
+  function showDayMoodDetails(dateStr, moods) {
+    const entry = moods.find(m => m.date && m.date.slice(0,10) === dateStr);
+    if (!entry) {
+      alert('No mood recorded for this day.');
+      return;
+    }
+    let msg = `Moods: ${entry.moods.map(m=>MOOD_META[m]?.emoji+" "+MOOD_META[m]?.label).join(', ')}\n`;
+    if (entry.note) msg += `Note: ${entry.note}`;
+    alert(msg);
+  }
 
   // --- END OF SCRIPT ---
   // All your app logic is now commented for easy learning!

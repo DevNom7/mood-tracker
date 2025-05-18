@@ -24,4 +24,4 @@ https://devnom7.github.io/mood-tracker/
 
 ## License
 
-Naim Lindsay
+By Naim Lindsay 😎

@@ -23,7 +23,13 @@
       </div>
     </header>
     <!-- Date and time display, centered above the main heading -->
-    <div id="current-datetime"></div>
+    <div class="datetime-calendar-wrapper">
+  
+      <div id="current-datetime" class="clickable"></div>
+      <br><br>
+      <span id="calendar-icon" title="Show calendar" class="calendar-icon"><i class="fas fa-calendar-alt"></i></span>
+      <div id="calendar-dropdown" class="calendar-dropdown"></div>
+    </div>
     <!-- Main app title -->
     <h1>Mood Tracker 😊</h1>
     <!-- Section where you pick your mood and add a note -->
@@ -106,9 +112,9 @@
     </div>
   </div>
 
-  <!-- Footer with my name (student project!) -->
+  <!-- Footer with my name (LinkedIn link!) -->
   <footer>
-    <p>Made with ❤️ by <span class="brand">Naim Lindsay</span></p>
+    <p>Made with ❤️ by <a href="https://www.linkedin.com/in/nlindsay14985/" class="brand" target="_blank" rel="noopener noreferrer">Naim Lindsay</a></p>
   </footer>
 
   <!-- External libraries for confetti and icons -->
